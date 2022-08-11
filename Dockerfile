@@ -25,21 +25,7 @@ RUN set -x && apt-get update && \
     && \
     #
     # enable bash-completeion for root user (other users works by default)
-    (echo && echo '[ -f /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion') >> ~/.bashrc && \
-    #
-    # install sudo and create a sudoable user 'devuser'
-    apt-get -y install sudo && \
-        adduser --disabled-password --gecos "Developer" devuser && \
-        adduser devuser sudo && \
-        echo "devuser ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers && \
-        # generate .sudo_as_admin_successful to prevent sodu from showing guide message
-        touch ~devuser/.sudo_as_admin_successful && \
-        # allow devuser to install files to /usr/local without sudo prefix
-        chown -R root:sudo /usr/local
-
-USER devuser
-
-WORKDIR /home/devuser
+    (echo && echo '[ -f /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion') >> ~/.bashrc
 
 # set LANG=*.UTF-8 so that default file encoding will be UTF-8, otherwise any non-ASCII files may have trouble.
 ENV LANG=C.UTF-8
